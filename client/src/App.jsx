@@ -17,9 +17,10 @@ import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 
 import { ALCHEMY_ID } from './config';
+import { FilecoinWallaby } from './chain'
 
 const { chains, provider } = configureChains(
-  [chain.goerli, chain.polygonMumbai],
+  [FilecoinWallaby, chain.goerli, chain.polygonMumbai],
   [
     alchemyProvider({ apiKey: ALCHEMY_ID }),
     publicProvider()
