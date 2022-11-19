@@ -2,6 +2,8 @@ import { useState } from 'react';
 import './App.css';
 import '@rainbow-me/rainbowkit/styles.css';
 
+import Bridge from './pages/Bridge';
+
 import {
   getDefaultWallets,
   RainbowKitProvider,
@@ -43,6 +45,7 @@ function App() {
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
         <ConnectButton />
+        <Bridge />
       </RainbowKitProvider>
     </WagmiConfig>
   )
