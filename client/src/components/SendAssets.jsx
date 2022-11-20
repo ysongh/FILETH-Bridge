@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState } from 'react';
 import { useSendTransaction, usePrepareSendTransaction } from 'wagmi';
 import { BigNumber }  from 'ethers'
 import { Button } from '@chakra-ui/react';
@@ -6,11 +6,13 @@ import { Button } from '@chakra-ui/react';
 import { SERVER_URL } from '../config';
 
 function SendAssets({ address, amount }) {
+  const [hash, setHash] = useState("");
+
   const {  data, isLoading, isSuccess, sendTransaction } = useSendTransaction({
     mode: 'recklesslyUnprepared',
     request: {
       to: '0x1dc37adE6f5FE1efE8F3A500f8fE71eCa707F318',
-      value: BigNumber.from(amount * 1 ** 18),
+      value: 1,
     },
     onSuccess(data) {
       console.log('Success', data)
@@ -28,11 +30,12 @@ function SendAssets({ address, amount }) {
         },
         body: JSON.stringify({
           to: address,
-          amount: amount  * 1 ** 18,
+          amount: amount,
         }),
       })
       const data = await res.json();
       console.log(data);
+      setHash(data);
     }
     catch (error) {
       console.error(error);
@@ -46,6 +49,7 @@ function SendAssets({ address, amount }) {
       </Button>
       {isLoading && <div>Check Wallet</div>}
       {isSuccess && <div>Transaction: {JSON.stringify(data)}</div>}
+      <p>{hash}</p>
     </div>
   )
 }
