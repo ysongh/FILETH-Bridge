@@ -7,7 +7,7 @@ const CONTRACT_ABI = require('../contractabi');
 const router = express.Router();
 
 const privateKey = process.env.PRIVATE_KEY;
-const nodeURL = process.env.ETHEREUM_NODE;
+const nodeURL = process.env.FILCOIN_NODE;
 const filContractAddress = process.env.FIL_CONTRACT;
 
 const provider = new ethers.providers.JsonRpcProvider(nodeURL);
@@ -23,9 +23,16 @@ router.get("/test", async (req, res) => {
   }
 });
 
-router.get("/wallet", async (req, res) => {
+router.get("/wallet/:type", async (req, res) => {
   try {
-    console.log("d")
+    const networkType = req.params.type;
+
+    let nodeURL;
+    if(networkType === 'FIL') nodeURL = process.env.FILCOIN_NODE;
+    else nodeURL = process.env.GOERLI_NODE;
+
+    const provider = new ethers.providers.JsonRpcProvider(nodeURL);
+    const wallet = new ethers.Wallet(privateKey, provider);
     let balancePromise = await wallet.getBalance();
 
     res.json(balancePromise.toString());
