@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ChakraProvider } from '@chakra-ui/react'
 import './App.css';
 import '@rainbow-me/rainbowkit/styles.css';
 
@@ -42,12 +43,14 @@ const wagmiClient = createClient({
 
 function App() {
   return (
-    <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains}>
-        <ConnectButton />
-        <Bridge />
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <ChakraProvider>
+      <WagmiConfig client={wagmiClient}>
+        <RainbowKitProvider chains={chains}>
+          <ConnectButton />
+          <Bridge />
+        </RainbowKitProvider>
+      </WagmiConfig>
+    </ChakraProvider>
   )
 }
 

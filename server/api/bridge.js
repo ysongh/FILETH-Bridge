@@ -11,8 +11,7 @@ const nodeURL = process.env.ETHEREUM_NODE;
 const filContractAddress = process.env.FIL_CONTRACT;
 
 const provider = new ethers.providers.JsonRpcProvider(nodeURL);
-const signer = provider.getSigner();
-const contract = new ethers.Contract(filContractAddress, CONTRACT_ABI, signer);
+const contract = new ethers.Contract(filContractAddress, CONTRACT_ABI, provider);
 const wallet = new ethers.Wallet(privateKey, provider);
 const contractWithSigner = contract.connect(wallet);
 
@@ -43,9 +42,9 @@ router.post("/bridgefil", async (req, res) => {
     // let tokenBalance = await contract.balanceOf(to);
     // res.json(tokenBalance.toString());
 
-    const transaction = await contractWithSigner.mint(to, amount);
-    const tx = await transaction.wait();
-    console.log(tx);
+    const tx = await contractWithSigner.mint(to, amount);
+    console.log(tx.hash);
+    await tx.wait();
 
     res.json(tx);
   } catch (error) {
