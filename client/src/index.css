@@ -24,11 +24,12 @@ a:hover {
   color: #535bf2;
 }
 
-body {
+main {
   margin: 0;
   display: flex;
-  place-items: center;
-  min-width: 320px;
+  justify-content: center;
+  margin: auto;
+  max-width: 550px;
   min-height: 100vh;
 }
 

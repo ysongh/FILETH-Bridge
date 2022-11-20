@@ -3,12 +3,12 @@ import { ChakraProvider } from '@chakra-ui/react'
 import './App.css';
 import '@rainbow-me/rainbowkit/styles.css';
 
+import Navbar from './components/layout/Navbar';
 import Bridge from './pages/Bridge';
 
 import {
   getDefaultWallets,
   RainbowKitProvider,
-  ConnectButton
 } from '@rainbow-me/rainbowkit';
 import {
   chain,
@@ -46,8 +46,10 @@ function App() {
     <ChakraProvider>
       <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider chains={chains}>
-          <ConnectButton />
-          <Bridge />
+          <Navbar />
+          <main>
+            <Bridge />
+          </main>
         </RainbowKitProvider>
       </WagmiConfig>
     </ChakraProvider>
