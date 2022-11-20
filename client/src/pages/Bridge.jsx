@@ -4,6 +4,7 @@ import { ArrowDownIcon } from '@chakra-ui/icons'
 
 import { useAccount, useContractRead, useContractWrite, usePrepareContractWrite } from 'wagmi';
 
+import SendAssets from '../components/SendAssets';
 import { ETH_CONTRACT_ADDRESS, FIL_CONTRACT_ADDRESS, CONTRACT_ABI } from '../contract-config';
 import { SERVER_URL } from '../config';
 
@@ -31,7 +32,6 @@ function Bridge() {
     }
   }
   
-
   useContractRead({
     addressOrName: FIL_CONTRACT_ADDRESS,
     contractInterface: CONTRACT_ABI,
@@ -103,11 +103,12 @@ function Bridge() {
           </InputGroup>
         </Flex>
       </Box>
-      {isConnected && <Button colorScheme='blue' width="100%" onClick={() => write?.()}>
+      <SendAssets address={address} amount={amount} />
+      {/* {isConnected && <Button colorScheme='blue' width="100%" onClick={() => write?.()}>
           Send
         </Button>}
       {isLoading && <div>Check Wallet</div>}
-      {isSuccess && <div>Transaction: {JSON.stringify(data)}</div>}
+      {isSuccess && <div>Transaction: {JSON.stringify(data)}</div>} */}
     </div>
   )
 }

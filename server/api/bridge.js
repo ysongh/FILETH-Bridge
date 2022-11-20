@@ -11,8 +11,8 @@ const nodeURL = process.env.FILCOIN_NODE;
 const filContractAddress = process.env.FIL_CONTRACT;
 
 const provider = new ethers.providers.JsonRpcProvider(nodeURL);
-const contract = new ethers.Contract(filContractAddress, CONTRACT_ABI, provider);
 const wallet = new ethers.Wallet(privateKey, provider);
+const contract = new ethers.Contract(filContractAddress, CONTRACT_ABI, wallet);
 const contractWithSigner = contract.connect(wallet);
 
 router.get("/test", async (req, res) => {
@@ -54,6 +54,26 @@ router.post("/bridgefil", async (req, res) => {
     await tx.wait();
 
     res.json(tx);
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+});
+
+router.post("/bridgeeth", async (req, res) => {
+  try {
+    const to = req.body.to;
+    const amount = req.body.amount;
+
+    const provider = new ethers.providers.JsonRpcProvider(process.env.GOERLI_NODE);
+    const contract = new ethers.Contract(process.env.ETH_CONTRACT, CONTRACT_ABI, provider);
+    const wallet = new ethers.Wallet(privateKey, provider);
+    const contractWithSigner = contract.connect(wallet);
+
+    const tx = await contractWithSigner.mint(to, amount);
+    console.log(tx.hash);
+    await tx.wait();
+
+    res.json(tx.hash);
   } catch (error) {
     res.status(500).json({ msg: error.message });
   }
